@@ -1,0 +1,17 @@
+{
+  "name": "gulp-inline-images",
+  "version": "1.0.0",
+  "description": "Convert the path to an image into a base64 encoded inline image.",
+  "main": "index.js",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "gulp": "^3.9.1",
+    "gulp-util": "^3.0.8",
+    "through2": "^2.0.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Austin Kurpuis",
+  "license": "MIT"
+}
