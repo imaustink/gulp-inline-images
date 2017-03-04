@@ -33,15 +33,17 @@ function plugin(options = {}){
 			var count = 0;
 
 			img_tags.each(function(){
-				var img = $(this);
-				var src = img.attr(attribute);
+				var $img = $(this);
+				var src = $img.attr(attribute);
 				// Save the file format from the extension
 				var ext_format = path.extname(src).substr(1);
 
 				// If inline_flag tags were found we want to remove the inline tag
-				if(inline_flag.length) img.removeAttr(INLINE_ATTR);
+				if(inline_flag.length) $img.removeAttr(INLINE_ATTR);
+
+				var not_inline_flag = $img.attr(NOT_INLINE_ATTR);
 				
-				if(img.hasAttr(NOT_INLINE_ATTR)) return img.removeAttr(NOT_INLINE_ATTR);
+				if(typeof not_inline_flag !== typeof undefined && not_inline_flag !== false) return $img.removeAttr(NOT_INLINE_ATTR);
 				
 				// Count async ops
 				count++;
@@ -51,7 +53,7 @@ function plugin(options = {}){
 					else
 					// Need a format in addition and a result for this to work
 					if(result && (ext_format || res_format)){
-						img.attr('src', `data:image/${ext_format};base64,${result}`);
+						$img.attr('src', `data:image/${ext_format};base64,${result}`);
 					} else {
 						console.error(`Failed to identify format of ${src}!`);
 					}
