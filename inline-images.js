@@ -42,8 +42,9 @@ function plugin(options = {}){
                 // Count async ops
 				count++;
 
-				getSrcBase64(file.base, src, function(err, result, res_format){
+				getSrcBase64(options.basedir || file.base, src, function(err, result, res_format){
 					if(err) console.error(err);
+					else
                     // Need a format in addition and a result for this to work
 					if(result && (ext_format || res_format)){
 						img.attr('src', `data:image/${ext_format};base64,${result}`);
@@ -98,7 +99,7 @@ function getHTTPBase64(url, callback) {
 function getSrcBase64(base, src, callback){
     if(!url.parse(src).hostname){
         // Get local file
-        var file_path = url.resolve(base, src);
+        var file_path = path.join(base, src);
         fs.readFile(file_path, 'base64', callback);
     }else{
         // Get remote file

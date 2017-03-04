@@ -25,6 +25,7 @@ gulp.task('inline-images', function(){
 |-----------|--------------|------------------|----------------------------------|
 | selector  | ```String``` | ```'img[src]'``` | Selection of elements to process |
 | attribute | ```String``` | ```'src'```      | Attribute name for source URL    |
+| basedir   | ```String``` | Source file dir  | Base directory of local images   |
 
 ## inline attribute
 To limit this plugin to specific img elements add an ```inline``` attribute to only the img tags you want to process, see example below:
