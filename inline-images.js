@@ -10,6 +10,8 @@ const cheerio = require('cheerio');
 
 const PLUGIN_NAME = 'gulp-inline-images';
 const MIME_TYPE_REGEX = /.+\/([^\s]*)/;
+const INLINE_ATTR = 'inline';
+const NOT_INLINE_ATTR = `!${INLINE_ATTR}`;
 
 function plugin(options = {}){
 	var selector = options.selector || 'img[src]';
@@ -25,7 +27,7 @@ function plugin(options = {}){
 			var contents = file.contents.toString(encoding);
 			// Load it into cheerio's virtual DOM for easy manipulation
 			var $ = cheerio.load(contents);
-			var inline_flag = $('img[inline]');
+			var inline_flag = $(`img[${INLINE_ATTR}]`);
 			// If images with an inline attr are found that is the selection we want
 			var img_tags = inline_flag.length ? inline_flag : $(selector);
 			var count = 0;
@@ -37,7 +39,9 @@ function plugin(options = {}){
 				var ext_format = path.extname(src).substr(1);
 
 				// If inline_flag tags were found we want to remove the inline tag
-				if(inline_flag.length) img.removeAttr('inline');
+				if(inline_flag.length) img.removeAttr(INLINE_ATTR);
+				
+				if(img.hasAttr(NOT_INLINE_ATTR)) return img.removeAttr(NOT_INLINE_ATTR);
 				
 				// Count async ops
 				count++;

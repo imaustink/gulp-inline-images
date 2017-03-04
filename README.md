@@ -1,12 +1,10 @@
 # gulp-inline-images
 
 ## Why
-Although there is other existing plugins for this they only support local files. This Implementation supports remote images over HTTP(s).
+Although there is other existing plugins for this, they only support local files. This Implementation supports remote images from the web. In addition, it gives you control over what images in each file are processed.
 
 ## Install
-```bash
-npm i gulp-inline-images --save-dev
-```
+$ ```npm i gulp-inline-images --save-dev```
 
 ## Implement
 ```javascript
@@ -28,8 +26,12 @@ gulp.task('inline-images', function(){
 | basedir   | ```String``` | Source file dir  | Base directory of local images   |
 
 ## inline attribute
-To limit this plugin to specific img elements add an ```inline``` attribute to only the img tags you want to process, see example below:
+To limit this plugin to specific img elements add an ```inline``` attribute to only the img tags you want to process.
 ```html
 <img src="..." inline>
 ```
-These attributes will not be in the output. If no img tags with the ```inline``` attribute are found all img tags will be processed.
+To prevent the plugin from processing certain img elements add an ```!inline``` attribute.
+```html
+<img src="..." !inline>
+```
+These attributes will not be in the output. If no img tags with the ```inline``` attribute are found, all img tags will be processed, unless the ```!inline``` tag is present.
