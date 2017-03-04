@@ -1,5 +1,8 @@
 # gulp-inline-images
 
+## Why
+Although there is other existing plugins for this they only support local files. This Implementation supports remote images over HTTP(s).
+
 ## Install
 ```bash
 npm i gulp-inline-images --save-dev
