@@ -23,29 +23,29 @@ function plugin(options = {}){
 
 		if(file.isBuffer()){
 			var contents = file.contents.toString(encoding);
-            // Load it into cheerio's virtual DOM for easy manipulation
+			// Load it into cheerio's virtual DOM for easy manipulation
 			var $ = cheerio.load(contents);
-            var inline_flag = $('img[inline]');
-            // If images with an inline attr are found that is the selection we want
-            var img_tags = inline_flag.length ? inline_flag : $(selector);
-            var count = 0;
+			var inline_flag = $('img[inline]');
+			// If images with an inline attr are found that is the selection we want
+			var img_tags = inline_flag.length ? inline_flag : $(selector);
+			var count = 0;
 
 			img_tags.each(function(){
 				var img = $(this);
 				var src = img.attr(attribute);
-                // Save the file format from the extension
+				// Save the file format from the extension
 				var ext_format = path.extname(src).substr(1);
 
-                // If inline_flag tags were found we want to remove the inline tag
-                if(inline_flag.length) img.removeAttr('inline');
+				// If inline_flag tags were found we want to remove the inline tag
+				if(inline_flag.length) img.removeAttr('inline');
 				
-                // Count async ops
+				// Count async ops
 				count++;
 
 				getSrcBase64(options.basedir || file.base, src, function(err, result, res_format){
 					if(err) console.error(err);
 					else
-                    // Need a format in addition and a result for this to work
+					// Need a format in addition and a result for this to work
 					if(result && (ext_format || res_format)){
 						img.attr('src', `data:image/${ext_format};base64,${result}`);
 					} else {
@@ -62,49 +62,49 @@ function plugin(options = {}){
 }
 
 function getHTTPBase64(url, callback) {
-    // Get applicable library
-    var lib = url.startsWith('https') ? https : http;
-    // Initiate a git request to our URL
-    var req = lib.get(url, (res) => {
-        // Check for redirect
+	// Get applicable library
+	var lib = url.startsWith('https') ? https : http;
+	// Initiate a git request to our URL
+	var req = lib.get(url, (res) => {
+		// Check for redirect
 		if(res.statusCode >= 301 && res.statusCode < 400 && res.headers.location){
-            // Redirect
+			// Redirect
 			return getHTTPBase64(res.headers.location, callback);
 		}
-        // Check for HTTP errors
-    	if(res.statusCode < 200 || res.statusCode >= 400){
-        	return callback(new Error('Failed to load page, status code: ' + res.statusCode));
-    	}
-        // Get file format
+		// Check for HTTP errors
+		if(res.statusCode < 200 || res.statusCode >= 400){
+			return callback(new Error('Failed to load page, status code: ' + res.statusCode));
+		}
+		// Get file format
 		var format;
 		if(res.headers['content-type']){
-            var matches = res.headers['content-type'].match(MIME_TYPE_REGEX);
-            if(matches) format = matches[1];
-        }
+			var matches = res.headers['content-type'].match(MIME_TYPE_REGEX);
+			if(matches) format = matches[1];
+		}
 
-        // Create an empty buffer to store the body in
-      	var body = Buffer.from([]);
+		// Create an empty buffer to store the body in
+	  	var body = Buffer.from([]);
 
-        // Append each chunk to the body
-      	res.on('data', (chunk) => body = Buffer.concat([body, chunk]));
+		// Append each chunk to the body
+	  	res.on('data', (chunk) => body = Buffer.concat([body, chunk]));
 
-        // Done callback
-      	res.on('end', () => callback(null, body.toString('base64'), format));
-    });
+		// Done callback
+	  	res.on('end', () => callback(null, body.toString('base64'), format));
+	});
 
-    // Listen for network errors
-    req.on('error', (err) => callback(err));
+	// Listen for network errors
+	req.on('error', (err) => callback(err));
 }
 
 function getSrcBase64(base, src, callback){
-    if(!url.parse(src).hostname){
-        // Get local file
-        var file_path = path.join(base, src);
-        fs.readFile(file_path, 'base64', callback);
-    }else{
-        // Get remote file
-        getHTTPBase64(src, callback);
-    }    
+	if(!url.parse(src).hostname){
+		// Get local file
+		var file_path = path.join(base, src);
+		fs.readFile(file_path, 'base64', callback);
+	}else{
+		// Get remote file
+		getHTTPBase64(src, callback);
+	}    
 }
 
 module.exports.plugin = plugin;
