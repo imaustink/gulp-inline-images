@@ -1,6 +1,6 @@
 {
   "name": "gulp-inline-images",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Convert the path to an image into a base64 encoded inline image.",
   "main": "index.js",
   "dependencies": {
