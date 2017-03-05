@@ -43,9 +43,11 @@ function plugin(options = {}){
 					$img.removeAttr(INLINE_ATTR);
 				}
 
+				// Find !inline attribute
 				var not_inline_flag = $img.attr(NOT_INLINE_ATTR);
 				
 				if(typeof not_inline_flag !== typeof undefined && not_inline_flag !== false){
+					// Remove the tag and don't process this file
 					return $img.removeAttr(NOT_INLINE_ATTR);
 				}
 				
@@ -55,7 +57,7 @@ function plugin(options = {}){
 				getSrcBase64(options.basedir || file.base, src, function(err, result, res_format){
 					if(err) console.error(err);
 					else
-					// Need a format in addition and a result for this to work
+					// Need a format in and a result for this to work
 					if(result && (ext_format || res_format)){
 						$img.attr('src', `data:image/${ext_format};base64,${result}`);
 					} else {
@@ -68,7 +70,11 @@ function plugin(options = {}){
 				});
 			});
 
-			if(!count) callback(null, file);
+			// If no files are processing we don't need to wait as none were ever started
+			if(!count){
+				file.contents = Buffer.from($.html());
+				callback(null, file);
+			}
 		}
 	});
 }
