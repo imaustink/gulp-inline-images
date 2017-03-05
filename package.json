@@ -1,6 +1,6 @@
 {
   "name": "gulp-inline-images",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Gulp plugin for converting linked HTML images into base64 encoded inline images. Works with local and remote files.",
   "main": "index.js",
   "dependencies": {
@@ -21,6 +21,7 @@
     "img",
     "tag",
     "base64",
-    "encoded"
+    "encoded",
+    "gulpplugin"
   ]
 }
