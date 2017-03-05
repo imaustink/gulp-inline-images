@@ -39,11 +39,15 @@ function plugin(options = {}){
 				var ext_format = path.extname(src).substr(1);
 
 				// If inline_flag tags were found we want to remove the inline tag
-				if(inline_flag.length) $img.removeAttr(INLINE_ATTR);
+				if(inline_flag.length){
+					$img.removeAttr(INLINE_ATTR);
+				}
 
 				var not_inline_flag = $img.attr(NOT_INLINE_ATTR);
 				
-				if(typeof not_inline_flag !== typeof undefined && not_inline_flag !== false) return $img.removeAttr(NOT_INLINE_ATTR);
+				if(typeof not_inline_flag !== typeof undefined && not_inline_flag !== false){
+					return $img.removeAttr(NOT_INLINE_ATTR);
+				}
 				
 				// Count async ops
 				count++;
@@ -63,6 +67,8 @@ function plugin(options = {}){
 					}
 				});
 			});
+
+			if(!count) callback(null, file);
 		}
 	});
 }
