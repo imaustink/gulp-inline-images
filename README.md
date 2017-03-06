@@ -1,6 +1,8 @@
 # gulp-inline-images
 
 ## Why
+If you've ever run [Google PageSeed Insights](https://developers.google.com/speed/pagespeed/insights/) or similar tests, you might have seen a warning about above-the-fold content not being delivered in the first request. What if said content is an image? Inline it!
+
 Although there is other existing plugins for this, they only support local files. This Implementation supports remote images from the web. In addition, it gives you control over what images in each file are processed.
 
 ## Install

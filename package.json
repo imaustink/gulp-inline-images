@@ -1,8 +1,12 @@
 {
   "name": "gulp-inline-images",
-  "version": "1.2.4",
+  "version": "1.2.6",
   "description": "Gulp plugin for converting linked HTML images into base64 encoded inline images. Works with local and remote files.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/imaustink/gulp-inline-images"
+  },
   "dependencies": {
     "cheerio": "^0.22.0",
     "gulp": "^3.9.1",
