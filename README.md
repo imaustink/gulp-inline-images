@@ -1,5 +1,7 @@
 # gulp-inline-images
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/imaustink/gulp-inline-images.svg)](https://greenkeeper.io/)
+
 ## Why
 If you've ever run [Google PageSeed Insights](https://developers.google.com/speed/pagespeed/insights/) or similar tests, you might have seen a warning about above-the-fold content not being delivered in the first request. What if said content is an image? Inline it!
 
