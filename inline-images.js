@@ -55,7 +55,9 @@ function plugin(options = {}){
 				// Count async ops
 				count++;
 
-				getSrcBase64(options.basedir || file.base, options.getHTTP, src, function(err, result, res_format){
+				getSrcBase64(options.basedir || file.base, options.getHTTP, src, function(err, result, res_format, skip_formatting){
+					if(skip_formatting) return src
+
 					if(err) console.error(err);
 					else
 					// Need a format in and a result for this to work
@@ -125,7 +127,7 @@ function getSrcBase64(base, getHTTP, src, callback){
 		if (getHTTP) {
 			getHTTPBase64(src, callback);
 		} else {
-			callback(null, src)
+			callback(null, src, null, true)
 		}
 	}    
 }
