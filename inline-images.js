@@ -16,6 +16,7 @@ const NOT_INLINE_ATTR = `!${INLINE_ATTR}`;
 function plugin(options = {}){
 	var selector = options.selector || 'img[src]';
 	var attribute = options.attribute || 'src';
+	var getHTTP = options.getHTTP || false;
 
 	return through.obj(function(file, encoding, callback){
 		if(file.isStream()){
@@ -54,7 +55,7 @@ function plugin(options = {}){
 				// Count async ops
 				count++;
 
-				getSrcBase64(options.basedir || file.base, src, function(err, result, res_format){
+				getSrcBase64(options.basedir || file.base, options.getHTTP, src, function(err, result, res_format){
 					if(err) console.error(err);
 					else
 					// Need a format in and a result for this to work
@@ -114,14 +115,18 @@ function getHTTPBase64(url, callback) {
 	req.on('error', (err) => callback(err));
 }
 
-function getSrcBase64(base, src, callback){
+function getSrcBase64(base, getHTTP, src, callback){
 	if(!url.parse(src).hostname){
 		// Get local file
 		var file_path = path.join(base, src);
 		fs.readFile(file_path, 'base64', callback);
 	}else{
 		// Get remote file
-		getHTTPBase64(src, callback);
+		if (getHTTP) {
+			getHTTPBase64(src, callback);
+		} else {
+			callback(null, src)
+		}
 	}    
 }
 
