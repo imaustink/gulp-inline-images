@@ -56,25 +56,28 @@ function plugin(options = {}){
 				count++;
 
 				getSrcBase64(options.basedir || file.base, options.getHTTP, src, function(err, result, res_format, skip_formatting){
-					if(skip_formatting) return src
-
-					if(err) console.error(err);
-					else
-					// Need a format in and a result for this to work
-					if(result && (ext_format || res_format)){
-						$img.attr('src', `data:image/${ext_format};base64,${result}`);
+					if (err) { 
+						console.error(err);
 					} else {
-						console.error(`Failed to identify format of ${src}!`);
-					}
-					if(!--count){
-						file.contents = Buffer.from($.html());
-						callback(null, file);
+						// Need a format in and a result for this to work
+						if (!skip_formatting) {
+							if(result && (ext_format || res_format)){
+								$img.attr('src', `data:image/${ext_format};base64,${result}`);
+							} else {
+								console.error(`Failed to identify format of ${src}!`);
+							}
+						}
+
+						if(!--count){
+							file.contents = Buffer.from($.html());
+							callback(null, file);
+						}
 					}
 				});
 			});
 
 			// If no files are processing we don't need to wait as none were ever started
-			if(!count){
+			if (!img_tags.length){
 				file.contents = Buffer.from($.html());
 				callback(null, file);
 			}
