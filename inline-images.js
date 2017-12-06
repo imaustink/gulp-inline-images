@@ -16,6 +16,7 @@ const NOT_INLINE_ATTR = `!${INLINE_ATTR}`;
 function plugin(options = {}){
 	var selector = options.selector || 'img[src]';
 	var attribute = options.attribute || 'src';
+	var cheerioOptions = options.cheerio || {};
 
 	return through.obj(function(file, encoding, callback){
 		if(file.isStream()){
@@ -26,7 +27,7 @@ function plugin(options = {}){
 		if(file.isBuffer()){
 			var contents = file.contents.toString(encoding);
 			// Load it into cheerio's virtual DOM for easy manipulation
-			var $ = cheerio.load(contents);
+			var $ = cheerio.load(contents, cheerioOptions);
 			var inline_flag = $(`img[${INLINE_ATTR}]`);
 			// If images with an inline attr are found that is the selection we want
 			var img_tags = inline_flag.length ? inline_flag : $(selector);
