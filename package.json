@@ -1,5 +1,5 @@
 {
-  "name": "gulp-inline-images-no-http",
+  "name": "gulp-inline-images",
   "version": "1.3.0",
   "description": "Gulp plugin for converting linked HTML images into base64 encoded inline images. Works with local and remote files.",
   "main": "index.js",
