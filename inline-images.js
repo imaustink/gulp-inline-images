@@ -26,7 +26,7 @@ function plugin(options = {}){
 		if(file.isBuffer()){
 			var contents = file.contents.toString(encoding);
 			// Load it into cheerio's virtual DOM for easy manipulation
-			var $ = cheerio.load(contents);
+			var $ = cheerio.load(contents, { decodeEntities: false });
 			var inline_flag = $(`img[${INLINE_ATTR}]`);
 			// If images with an inline attr are found that is the selection we want
 			var img_tags = inline_flag.length ? inline_flag : $(selector);
