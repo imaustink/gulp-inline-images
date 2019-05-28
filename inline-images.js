@@ -59,7 +59,7 @@ function plugin(options = {}){
 					else
 					// Need a format in and a result for this to work
 					if(result && (ext_format || res_format)){
-						$img.attr('src', `data:image/${ext_format};base64,${result}`);
+						$img.attr(attribute, `data:image/${ext_format};base64,${result}`);
 					} else {
 						console.error(`Failed to identify format of ${src}!`);
 					}
