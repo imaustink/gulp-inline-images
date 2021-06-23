@@ -1,5 +1,5 @@
 {
-  "name": "gulp-inline-images",
+  "name": "@ziflow/gulp-inline-images",
   "version": "1.2.6",
   "description": "Gulp plugin for converting linked HTML images into base64 encoded inline images. Works with local and remote files.",
   "main": "index.js",
@@ -8,13 +8,13 @@
     "url": "https://github.com/imaustink/gulp-inline-images"
   },
   "dependencies": {
-    "cheerio": "^0.22.0",
-    "gulp": "^3.9.1",
+    "cheerio": "^1.0.0-rc.10",
+    "gulp": "^4.0.2",
     "gulp-util": "^3.0.8",
-    "through2": "^2.0.3"
+    "through2": "^4.0.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "release": "release-it"
   },
   "author": "Austin Kurpuis",
   "license": "MIT",
@@ -27,5 +27,8 @@
     "base64",
     "encoded",
     "gulpplugin"
-  ]
+  ],
+  "devDependencies": {
+    "release-it": "^14.10.0"
+  }
 }
