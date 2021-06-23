@@ -6,12 +6,12 @@ If you've ever run [Google PageSeed Insights](https://developers.google.com/spee
 Although there is other existing plugins for this, they only support local files. This Implementation supports remote images from the web. In addition, it gives you control over what images in each file are processed.
 
 ## Install
-$ ```npm i gulp-inline-images --save-dev```
+$ ```npm i @ziflow/gulp-inline-images --save-dev```
 
 ## Implement
 ```javascript
 var gulp = require('gulp');
-var inlineImages = require('gulp-inline-images');
+var inlineImages = require('@ziflow/gulp-inline-images');
 
 gulp.task('inline-images', function(){
     return gulp.src(['view/*.html'])
