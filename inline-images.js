@@ -16,6 +16,7 @@ const NOT_INLINE_ATTR = `!${INLINE_ATTR}`;
 function plugin(options = {}){
 	var selector = options.selector || 'img[src]';
 	var attribute = options.attribute || 'src';
+	var getHTTP = options.getHTTP || false;
 
 	return through.obj(function(file, encoding, callback){
 		if(file.isStream()){
@@ -54,24 +55,29 @@ function plugin(options = {}){
 				// Count async ops
 				count++;
 
-				getSrcBase64(options.basedir || file.dirname, src, function(err, result, res_format){
-					if(err) console.error(err);
-					else
-					// Need a format in and a result for this to work
-					if(result && (ext_format || res_format)){
-						$img.attr(attribute, `data:image/${ext_format};base64,${result}`);
+				getSrcBase64(options.basedir || file.dirname, getHTTP, src, function(err, result, res_format, skip_formatting){
+					if (err) { 
+						console.error(err);
 					} else {
-						console.error(`Failed to identify format of ${src}!`);
-					}
-					if(!--count){
-						file.contents = Buffer.from($.html());
-						callback(null, file);
+						// Need a format in and a result for this to work
+						if (!skip_formatting) {
+							if(result && (ext_format || res_format)){
+								$img.attr('src', `data:image/${ext_format};base64,${result}`);
+							} else {
+								console.error(`Failed to identify format of ${src}!`);
+							}
+						}
+
+						if(!--count){
+							file.contents = Buffer.from($.html());
+							callback(null, file);
+						}
 					}
 				});
 			});
 
 			// If no files are processing we don't need to wait as none were ever started
-			if(!count){
+			if (!img_tags.length){
 				file.contents = Buffer.from($.html());
 				callback(null, file);
 			}
@@ -114,14 +120,18 @@ function getHTTPBase64(url, callback) {
 	req.on('error', (err) => callback(err));
 }
 
-function getSrcBase64(base, src, callback){
+function getSrcBase64(base, getHTTP, src, callback){
 	if(!url.parse(src).hostname){
 		// Get local file
 		var file_path = path.join(base, src);
 		fs.readFile(file_path, 'base64', callback);
 	}else{
 		// Get remote file
-		getHTTPBase64(src, callback);
+		if (getHTTP) {
+			getHTTPBase64(src, callback);
+		} else {
+			callback(null, src, null, true)
+		}
 	}    
 }
 
