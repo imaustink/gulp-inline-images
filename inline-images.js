@@ -38,6 +38,7 @@ function plugin(options = {}){
 				var src = $img.attr(attribute);
 				// Save the file format from the extension
 				var ext_format = path.extname(src).substr(1);
+				if (ext_format == "svg") ext_format = "svg+xml";
 
 				// If inline_flag tags were found we want to remove the inline tag
 				if(inline_flag.length){
